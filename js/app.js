@@ -18,6 +18,14 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
   let terrainEnabled = false;
 
   const PRECISE_POSITION_TYPES = ['landmark', 'camera', 'structure'];
+  const REGISTERED_CAMERA_TOTAL = 76;
+
+  const SOURCE_URLS = {
+    hakone: 'https://www.cbr.mlit.go.jp/numazu/bousai/livecamera/hakone/',
+    r138: 'https://www.cbr.mlit.go.jp/numazu/bousai/livecamera/246-138/',
+    r246: 'https://www.cbr.mlit.go.jp/numazu/bousai/livecamera/246-138/',
+    amagi: 'https://www.cbr.mlit.go.jp/numazu/bousai/livecamera/amagikita/'
+  };
 
   const style = {
     version: 8,
@@ -96,9 +104,9 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
   }
 
   function positionLabel(precision) {
-    if (PRECISE_POSITION_TYPES.includes(precision)) return '● 比較的確かな位置';
-    if (precision === 'link_area') return '■ リンク用代表地点';
-    return '■ 近傍・代表位置';
+    if (PRECISE_POSITION_TYPES.includes(precision)) return '〇 座標位置';
+    if (precision === 'link_area') return '□ 近傍（リンク地点）';
+    return '□ 近傍';
   }
 
   function popupHtml(properties) {
@@ -106,7 +114,6 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
     const targetUrl = safeUrl(p.camera_url);
     const sourceUrl = safeUrl(p.source_url);
     const elevation = p.elevation_m ? `${escapeHtml(p.elevation_m)} m` : '未登録';
-    const precision = p.coordinate_precision ? escapeHtml(p.coordinate_precision) : '未登録';
     const isImage = p.display_type === 'direct_image' && targetUrl !== '#';
     const isExternalLink = p.display_type === 'external_link';
     const image = isImage
@@ -128,8 +135,7 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
         <div class="meta">${escapeHtml(p.provider)} / ${escapeHtml(p.office)}</div>
         <div class="meta">${escapeHtml(p.municipality)}・${escapeHtml(p.area)}</div>
         <div class="meta">標高: ${elevation}</div>
-        <div class="meta">位置区分: ${escapeHtml(positionLabel(p.coordinate_precision))}</div>
-        <div class="meta">座標種別: ${precision}</div>
+        <div class="meta">位置: ${escapeHtml(positionLabel(p.coordinate_precision))}</div>
         ${locationNote}
         ${image}
         <div class="links">
@@ -152,7 +158,7 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
   function statusText(features) {
     const links = features.filter(f => f.properties?.feature_kind === 'link').length;
     const cameras = features.length - links;
-    return `${features.length}マーカーを表示中（カメラ ${cameras} / リンク ${links} / 台帳 ${cameraData?.metadata?.inventory_total ?? 68}）`;
+    return `${features.length}マーカーを表示中（カメラ ${cameras} / NEXCOリンク ${links} / 登録カメラ ${REGISTERED_CAMERA_TOTAL}）`;
   }
 
   function applyFilters() {
@@ -204,12 +210,36 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
     const images = {
       'square-prefecture': '#e07b39',
       'square-mlit': '#2f6db2',
-      'square-nexco': '#7653b8',
+      'square-nexco': '#2f8f5b',
       'square-default': '#6b7280'
     };
     Object.entries(images).forEach(([id, color]) => {
       if (!map.hasImage(id)) map.addImage(id, makeSquareImage(color));
     });
+  }
+
+  function recordToFeature(record) {
+    return {
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: record.c },
+      properties: {
+        camera_id: record.id,
+        provider: '国土交通省',
+        office: '中部地方整備局 沼津河川国道事務所',
+        route_no: record.r,
+        route_name: record.rn,
+        camera_name: record.n,
+        area: record.a,
+        municipality: record.m,
+        elevation_m: null,
+        camera_url: record.img,
+        source_url: SOURCE_URLS[record.g] || 'https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html',
+        display_type: 'direct_image',
+        coordinate_precision: 'nearby_route',
+        coordinate_source: '距離標・地名・道路線形から置いた近傍位置（要精査）',
+        location_note: '□ 近傍位置。距離標・地名・道路線形から配置した代表位置で、カメラ支柱の正確な座標ではありません。'
+      }
+    };
   }
 
   function openPopup(event) {
@@ -222,11 +252,31 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
   }
 
   async function loadCameras() {
-    const response = await fetch('data/cameras.geojson', { cache: 'no-store' });
-    if (!response.ok) throw new Error(`GeoJSONの取得に失敗: ${response.status}`);
-    cameraData = await response.json();
+    const [baseResponse, extraResponse] = await Promise.all([
+      fetch('data/cameras.geojson', { cache: 'no-store' }),
+      fetch('data/cameras_additional.json', { cache: 'no-store' })
+    ]);
 
-    inventoryCountEl.textContent = String(cameraData.metadata?.inventory_total ?? 68);
+    if (!baseResponse.ok) throw new Error(`GeoJSONの取得に失敗: ${baseResponse.status}`);
+    if (!extraResponse.ok) throw new Error(`追加カメラデータの取得に失敗: ${extraResponse.status}`);
+
+    const baseData = await baseResponse.json();
+    const extraData = await extraResponse.json();
+    const extraFeatures = (extraData.records || []).map(recordToFeature);
+
+    cameraData = {
+      type: 'FeatureCollection',
+      metadata: {
+        ...(baseData.metadata || {}),
+        inventory_total: REGISTERED_CAMERA_TOTAL,
+        mapped_count: baseData.features.length + extraFeatures.length,
+        additional_count: extraFeatures.length,
+        checked_at: extraData.checked_at || baseData.metadata?.checked_at
+      },
+      features: [...baseData.features, ...extraFeatures]
+    };
+
+    inventoryCountEl.textContent = String(REGISTERED_CAMERA_TOTAL);
     mappedCountEl.textContent = String(cameraData.features.length);
     populateAreas(cameraData.features);
 
@@ -247,7 +297,7 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
           'match', ['get', 'provider'],
           '国土交通省', '#2f6db2',
           '静岡県', '#e07b39',
-          'NEXCO中日本', '#7653b8',
+          'NEXCO中日本', '#2f8f5b',
           '#6b7280'
         ],
         'circle-stroke-color': '#ffffff',
