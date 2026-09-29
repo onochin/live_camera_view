@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>道路ライブカメラWebMap ワークフロー</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #5f6b7a;
+      --line: #a9b5c7;
+      --blue: #2d6cdf;
+      --green: #2f8f5b;
+      --orange: #d9822b;
+      --purple: #7a5af8;
+      --red: #c84b4b;
+      --shadow: 0 10px 30px rgba(29, 43, 68, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    .wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #20345e, #2d6cdf);
+      color: #fff;
+      border-radius: 20px;
+      padding: 28px 30px;
+      box-shadow: var(--shadow);
+      margin-bottom: 26px;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(24px, 3vw, 38px);
+    }
+
+    header p { margin: 0; opacity: 0.92; }
+
+    .section {
+      background: var(--card);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-top: 22px;
+    }
+
+    .section h2 {
+      margin: 0 0 16px;
+      font-size: 22px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(130px, 1fr));
+      gap: 28px;
+      align-items: stretch;
+      margin-top: 18px;
+    }
+
+    .step {
+      position: relative;
+      min-height: 180px;
+      border-radius: 16px;
+      padding: 18px 16px;
+      border: 1px solid #dfe5ee;
+      background: #fff;
+    }
+
+    .step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -24px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 28px;
+      color: var(--line);
+      font-weight: 700;
+    }
+
+    .num {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: white;
+      font-weight: 700;
+      margin-bottom: 10px;
+      background: var(--blue);
+    }
+
+    .step:nth-child(2) .num { background: var(--green); }
+    .step:nth-child(3) .num { background: var(--orange); }
+    .step:nth-child(4) .num { background: var(--purple); }
+    .step:nth-child(5) .num { background: #3d7f91; }
+    .step:nth-child(6) .num { background: #8a6d3b; }
+    .step:nth-child(7) .num { background: var(--red); }
+
+    .step h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .sources,
+    .modes,
+    .roles {
+      display: grid;
+      gap: 14px;
+    }
+
+    .sources { grid-template-columns: repeat(3, 1fr); }
+    .modes { grid-template-columns: repeat(4, 1fr); }
+    .roles { grid-template-columns: 1fr 1fr; }
+
+    .mini {
+      border: 1px solid #dfe5ee;
+      border-radius: 14px;
+      padding: 16px;
+      background: #fbfcfe;
+    }
+
+    .mini strong { display: block; margin-bottom: 5px; }
+    .mini span { color: var(--muted); font-size: 14px; }
+
+    .fog-flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+      align-items: center;
+      margin-top: 18px;
+    }
+
+    .fog-node {
+      position: relative;
+      text-align: center;
+      border-radius: 14px;
+      padding: 18px 12px;
+      background: #eef4ff;
+      border: 1px solid #cad8f5;
+      min-height: 120px;
+    }
+
+    .fog-node:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--line);
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .fog-node b { display: block; margin-bottom: 4px; }
+    .fog-node small { color: var(--muted); }
+
+    .note {
+      margin-top: 18px;
+      border-left: 5px solid var(--orange);
+      background: #fff8ef;
+      padding: 13px 16px;
+      border-radius: 8px;
+      color: #69481f;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #eef2f7;
+      font-size: 13px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      margin-top: 26px;
+    }
+
+    @media (max-width: 1050px) {
+      .flow { grid-template-columns: 1fr 1fr; }
+      .step:not(:last-child)::after { display: none; }
+      .sources { grid-template-columns: 1fr 1fr; }
+      .modes { grid-template-columns: 1fr 1fr; }
+      .fog-flow { grid-template-columns: 1fr; }
+      .fog-node:not(:last-child)::after { content: "↓"; right: 50%; top: auto; bottom: -28px; transform: translateX(50%); }
+    }
+
+    @media (max-width: 680px) {
+      .flow,
+      .sources,
+      .modes,
+      .roles { grid-template-columns: 1fr; }
+      .wrap { padding: 18px 12px 36px; }
+      header, .section { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>道路ライブカメラ WebMap ワークフロー</h1>
+      <p>静岡県東部版 ― 道路点検前の雨・霧・低雲・積雪・路面状況確認を1つの地図に集約する</p>
+    </header>
+
+    <section class="section">
+      <h2>全体ワークフロー</h2>
+      <div class="flow">
+        <article class="step">
+          <div class="num">1</div>
+          <h3>公式公開元を収集</h3>
+          <p>静岡県各土木事務所、国交省、道路公社、NEXCO中日本などの公式カメラを確認。</p>
+        </article>
+        <article class="step">
+          <div class="num">2</div>
+          <h3>カメラ台帳を作成</h3>
+          <p>名称・管理者・路線・緯度経度・標高・URL・確認日を同一形式で整理。</p>
+        </article>
+        <article class="step">
+          <div class="num">3</div>
+          <h3>GeoJSONへ正規化</h3>
+          <p>1カメラ1Featureとし、WebMapで扱いやすいデータ構造に統一。</p>
+        </article>
+        <article class="step">
+          <div class="num">4</div>
+          <h3>Leafletで可視化</h3>
+          <p>地理院背景地図上にMarker表示。Popupから公式カメラを開く。</p>
+        </article>
+        <article class="step">
+          <div class="num">5</div>
+          <h3>検索・フィルタ</h3>
+          <p>管理者、市町村、路線、エリア、標高で絞り込み。現場向け操作を簡略化。</p>
+        </article>
+        <article class="step">
+          <div class="num">6</div>
+          <h3>霧確認モード</h3>
+          <p>異なる標高のカメラを比較し、雲底・霧の高度を現地判断の補助に使う。</p>
+        </article>
+        <article class="step">
+          <div class="num">7</div>
+          <h3>現地運用・保守</h3>
+          <p>スマホで確認。リンク切れ・新設・廃止を定期確認し台帳を更新。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>対象となる主な公式カメラ提供元</h2>
+      <div class="sources">
+        <div class="mini"><strong>静岡県 沼津土木事務所</strong><span>御殿場・小山・三島・函南・伊豆北部の峠、国道・県道。</span></div>
+        <div class="mini"><strong>静岡県 富士土木事務所</strong><span>富士山麓・富士山スカイライン・水ヶ塚・十里木方面。</span></div>
+        <div class="mini"><strong>静岡県 熱海土木事務所</strong><span>熱海・伊東・伊豆東部、国道135号・峠部など。</span></div>
+        <div class="mini"><strong>国交省 沼津河川国道事務所</strong><span>国道1号・138号・246号、伊豆縦貫道など。</span></div>
+        <div class="mini"><strong>静岡県道路公社</strong><span>箱根スカイライン・伊豆スカイライン等の高標高道路。</span></div>
+        <div class="mini"><strong>NEXCO中日本</strong><span>東名・新東名の交通・気象・ライブカメラ情報。</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>WebMapの利用モード</h2>
+      <div class="modes">
+        <div class="mini"><strong>通常表示</strong><span>周辺のカメラ位置と管理者・路線を確認。</span></div>
+        <div class="mini"><strong>道路点検モード</strong><span>点検対象路線の近傍カメラだけを表示。</span></div>
+        <div class="mini"><strong>霧確認モード</strong><span>標高順にカメラを比較し、低雲・霧の高さを把握。</span></div>
+        <div class="mini"><strong>現場前チェック</strong><span>お気に入りカメラ群をスマートフォンから短時間で確認。</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>霧確認モードの考え方</h2>
+      <div class="fog-flow">
+        <div class="fog-node"><b>低標高カメラ</b><small>例: 約500～600m<br>視界あり?</small></div>
+        <div class="fog-node"><b>中標高カメラ</b><small>例: 約700～900m<br>薄霧?</small></div>
+        <div class="fog-node"><b>高標高カメラ</b><small>例: 約1000m<br>雲中?</small></div>
+        <div class="fog-node"><b>山麓高所カメラ</b><small>例: 水ヶ塚 約1400m級<br>視界確認</small></div>
+        <div class="fog-node"><b>点検判断</b><small>標高差と映像を比較し<br>調査順を決める</small></div>
+      </div>
+      <div class="note">
+        自動で「霧あり／なし」を断定する機能ではなく、複数標高の実映像を並べて道路点検者の判断を支援する。
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>データ更新フロー</h2>
+      <div class="roles">
+        <div class="mini">
+          <strong>ChatGPT側</strong>
+          <span>公開元調査 → 台帳整理 → GeoJSON生成 → 初期HTML/CSS/JS → 仕様・依頼書作成</span>
+        </div>
+        <div class="mini">
+          <strong>Codex側</strong>
+          <span>既存リポジトリ整合確認 → WSL実行 → Playwright/Chromium QA → 最小修正 → 状態文書更新</span>
+        </div>
+      </div>
+      <div class="legend">
+        <span class="tag"><span class="dot"></span>調査・データ整理はChatGPT中心</span>
+        <span class="tag"><span class="dot" style="background:#7a5af8"></span>Codexは統合・ブラウザQAに温存</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Ver.1 完成イメージ</h2>
+      <p>
+        静岡県東部の主要道路ライブカメラが地図上に表示され、管理者・市町村・路線・標高で絞り込み可能。
+        Popupから公式映像へ直接アクセスでき、富士山麓・御殿場箱根・小山三国峠・伊豆峠部などのプリセットから
+        道路点検前の雨・霧・低雲・積雪状況を短時間で確認できる状態を目標とする。
+      </p>
+    </section>
+
+    <footer>
+      ono​chin/live_camera_view — workflow draft 2026-09-29
+    </footer>
+  </div>
+</body>
+</html>
