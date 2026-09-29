@@ -17,7 +17,7 @@
 
       <div class="summary" aria-live="polite">
         <div><strong id="mapped-count">-</strong><span>地図表示</span></div>
-        <div><strong id="inventory-count">68</strong><span>台帳総数</span></div>
+        <div><strong id="inventory-count">68</strong><span>カメラ台帳</span></div>
       </div>
 
       <section class="control-group">
@@ -35,6 +35,7 @@
           <option value="all">すべて</option>
           <option value="静岡県">静岡県</option>
           <option value="国土交通省">国土交通省</option>
+          <option value="NEXCO中日本">NEXCO中日本</option>
         </select>
       </section>
 
@@ -57,9 +58,12 @@
 
       <section class="legend-block">
         <h2>凡例</h2>
-        <div><span class="legend-dot prefecture"></span>静岡県</div>
-        <div><span class="legend-dot mlit"></span>国土交通省</div>
-        <p class="small">※ 初版は座標確認済み地点のみ表示。カメラ支柱そのものではなく、峠・交差点等の代表地点を含みます。</p>
+        <div><span class="legend-color prefecture"></span>静岡県</div>
+        <div><span class="legend-color mlit"></span>国土交通省</div>
+        <div><span class="legend-color nexco"></span>NEXCO中日本</div>
+        <div class="legend-shape-row"><span class="legend-circle-shape"></span>● 比較的確かな位置</div>
+        <div class="legend-shape-row"><span class="legend-square-shape"></span>■ 近傍・代表位置／リンク地点</div>
+        <p class="small">※ ■はカメラ支柱そのものの座標ではない場合があります。NEXCOはiHighwayを開くための代表リンク地点です。</p>
       </section>
 
       <div id="status" class="status">地図を読み込んでいます…</div>
