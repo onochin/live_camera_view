@@ -1,169 +1,125 @@
 {
   "type": "FeatureCollection",
   "metadata": {
-    "title": "静岡県東部 道路ライブカメラ位置 初版",
+    "title": "静岡県東部 道路ライブカメラ位置",
     "inventory_total": 68,
-    "mapped_count": 13,
+    "mapped_count": 22,
     "auxiliary_link_count": 4,
     "checked_at": "2026-09-29",
-    "note": "camera_inventory.csv のうち、公開情報から位置を確認できた代表地点を収録。NEXCO中日本はカメラ支柱位置ではなく、iHighwayを開くための代表リンク地点を追加している。landmark等は●、nearby/link_area等の近傍・代表位置は■で表示する。"
+    "note": "静岡県・国交省の道路ライブカメラとNEXCOリンク地点を収録。●は比較的確かな位置、■は近傍・代表位置。伊豆縦貫道11地点は公式KP・所在地等からの概略配置を含む。"
   },
   "features": [
     {
       "type": "Feature",
       "geometry": {"type": "Point", "coordinates": [139.0420614, 35.0224033]},
-      "properties": {
-        "camera_id": "CAM-003", "provider": "静岡県", "office": "沼津土木事務所",
-        "route_no": "19", "route_name": "伊東大仁線", "camera_name": "亀石峠",
-        "area": "伊豆北部", "municipality": "伊豆の国市", "elevation_m": null,
-        "camera_url": "https://snowlive.pref.shizuoka.jp/numadu/03_kameishi/cam_kameishi.jpg",
-        "source_url": "https://snowlive.pref.shizuoka.jp/", "display_type": "direct_image",
-        "coordinate_precision": "landmark", "coordinate_source": "MapFan 亀石峠"
-      }
+      "properties": {"camera_id":"CAM-003","provider":"静岡県","office":"沼津土木事務所","route_no":"19","route_name":"伊東大仁線","camera_name":"亀石峠","area":"伊豆北部","municipality":"伊豆の国市","elevation_m":null,"camera_url":"https://snowlive.pref.shizuoka.jp/numadu/03_kameishi/cam_kameishi.jpg","source_url":"https://snowlive.pref.shizuoka.jp/","display_type":"direct_image","coordinate_precision":"landmark","coordinate_source":"MapFan 亀石峠"}
     },
     {
       "type": "Feature",
       "geometry": {"type": "Point", "coordinates": [138.814058, 35.2603892]},
-      "properties": {
-        "camera_id": "CAM-004", "provider": "静岡県", "office": "沼津土木事務所",
-        "route_no": "469", "route_name": "国道469号", "camera_name": "十里木",
-        "area": "富士山麓", "municipality": "裾野市", "elevation_m": null,
-        "camera_url": "https://snowlive.pref.shizuoka.jp/numadu/04_jurigi/cam_jurigi.jpg",
-        "source_url": "https://snowlive.pref.shizuoka.jp/", "display_type": "direct_image",
-        "coordinate_precision": "landmark", "coordinate_source": "MapFan 十里木"
-      }
+      "properties": {"camera_id":"CAM-004","provider":"静岡県","office":"沼津土木事務所","route_no":"469","route_name":"国道469号","camera_name":"十里木","area":"富士山麓","municipality":"裾野市","elevation_m":null,"camera_url":"https://snowlive.pref.shizuoka.jp/numadu/04_jurigi/cam_jurigi.jpg","source_url":"https://snowlive.pref.shizuoka.jp/","display_type":"direct_image","coordinate_precision":"landmark","coordinate_source":"MapFan 十里木"}
     },
     {
       "type": "Feature",
       "geometry": {"type": "Point", "coordinates": [138.982759, 35.282903]},
-      "properties": {
-        "camera_id": "CAM-005", "provider": "静岡県", "office": "沼津土木事務所",
-        "route_no": "138", "route_name": "国道138号", "camera_name": "乙女峠",
-        "area": "御殿場・箱根", "municipality": "御殿場市", "elevation_m": null,
-        "camera_url": "https://snowlive.pref.shizuoka.jp/numadu/05_otome/cam_otome.jpg",
-        "source_url": "https://snowlive.pref.shizuoka.jp/", "display_type": "direct_image",
-        "coordinate_precision": "nearby_landmark", "coordinate_source": "公開位置情報 乙女峠付近"
-      }
+      "properties": {"camera_id":"CAM-005","provider":"静岡県","office":"沼津土木事務所","route_no":"138","route_name":"国道138号","camera_name":"乙女峠","area":"御殿場・箱根","municipality":"御殿場市","elevation_m":null,"camera_url":"https://snowlive.pref.shizuoka.jp/numadu/05_otome/cam_otome.jpg","source_url":"https://snowlive.pref.shizuoka.jp/","display_type":"direct_image","coordinate_precision":"nearby_landmark","coordinate_source":"公開位置情報 乙女峠付近"}
     },
     {
       "type": "Feature",
       "geometry": {"type": "Point", "coordinates": [138.83664, 34.971283]},
-      "properties": {
-        "camera_id": "CAM-006", "provider": "静岡県", "office": "沼津土木事務所",
-        "route_no": "18", "route_name": "修善寺戸田線", "camera_name": "戸田峠",
-        "area": "伊豆西部", "municipality": "沼津市", "elevation_m": 730,
-        "camera_url": "https://snowlive.pref.shizuoka.jp/numadu/06_heda/cam_heda.jpg",
-        "source_url": "https://snowlive.pref.shizuoka.jp/", "display_type": "direct_image",
-        "coordinate_precision": "landmark", "coordinate_source": "戸田峠公開位置情報"
-      }
+      "properties": {"camera_id":"CAM-006","provider":"静岡県","office":"沼津土木事務所","route_no":"18","route_name":"修善寺戸田線","camera_name":"戸田峠","area":"伊豆西部","municipality":"沼津市","elevation_m":730,"camera_url":"https://snowlive.pref.shizuoka.jp/numadu/06_heda/cam_heda.jpg","source_url":"https://snowlive.pref.shizuoka.jp/","display_type":"direct_image","coordinate_precision":"landmark","coordinate_source":"戸田峠公開位置情報"}
     },
     {
       "type": "Feature",
       "geometry": {"type": "Point", "coordinates": [138.9334565, 34.8300332]},
-      "properties": {
-        "camera_id": "CAM-007", "provider": "静岡県", "office": "沼津土木事務所",
-        "route_no": "414", "route_name": "国道414号", "camera_name": "天城峠",
-        "area": "伊豆中部", "municipality": "伊豆市", "elevation_m": null,
-        "camera_url": "https://snowlive.pref.shizuoka.jp/numadu/07_amagi/cam_amagi.jpg",
-        "source_url": "https://snowlive.pref.shizuoka.jp/", "display_type": "direct_image",
-        "coordinate_precision": "landmark", "coordinate_source": "MapFan 天城峠"
-      }
+      "properties": {"camera_id":"CAM-007","provider":"静岡県","office":"沼津土木事務所","route_no":"414","route_name":"国道414号","camera_name":"天城峠","area":"伊豆中部","municipality":"伊豆市","elevation_m":null,"camera_url":"https://snowlive.pref.shizuoka.jp/numadu/07_amagi/cam_amagi.jpg","source_url":"https://snowlive.pref.shizuoka.jp/","display_type":"direct_image","coordinate_precision":"landmark","coordinate_source":"MapFan 天城峠"}
     },
     {
       "type": "Feature",
       "geometry": {"type": "Point", "coordinates": [139.0129277, 35.3199468]},
-      "properties": {
-        "camera_id": "CAM-008", "provider": "静岡県", "office": "沼津土木事務所",
-        "route_no": "78", "route_name": "御殿場大井線", "camera_name": "足柄峠",
-        "area": "小山・足柄", "municipality": "小山町", "elevation_m": 759,
-        "camera_url": "https://snowlive.pref.shizuoka.jp/numadu/08_ashigara/cam_ashigara.jpg",
-        "source_url": "https://snowlive.pref.shizuoka.jp/", "display_type": "direct_image",
-        "coordinate_precision": "landmark", "coordinate_source": "MapFan 足柄峠"
-      }
+      "properties": {"camera_id":"CAM-008","provider":"静岡県","office":"沼津土木事務所","route_no":"78","route_name":"御殿場大井線","camera_name":"足柄峠","area":"小山・足柄","municipality":"小山町","elevation_m":759,"camera_url":"https://snowlive.pref.shizuoka.jp/numadu/08_ashigara/cam_ashigara.jpg","source_url":"https://snowlive.pref.shizuoka.jp/","display_type":"direct_image","coordinate_precision":"landmark","coordinate_source":"MapFan 足柄峠"}
     },
     {
       "type": "Feature",
       "geometry": {"type": "Point", "coordinates": [138.7700318, 35.3053931]},
-      "properties": {
-        "camera_id": "CAM-018", "provider": "静岡県", "office": "富士土木事務所",
-        "route_no": "152", "route_name": "富士公園太郎坊線", "camera_name": "水ヶ塚",
-        "area": "富士山麓", "municipality": "裾野市", "elevation_m": 1450,
-        "camera_url": "https://fujilive.pref.shizuoka.jp/fuji/02_mizugazuka/cam_mizugazuka.jpg",
-        "source_url": "https://fujilive.pref.shizuoka.jp/", "display_type": "direct_image",
-        "coordinate_precision": "landmark", "coordinate_source": "水ヶ塚公園公開位置情報"
-      }
+      "properties": {"camera_id":"CAM-018","provider":"静岡県","office":"富士土木事務所","route_no":"152","route_name":"富士公園太郎坊線","camera_name":"水ヶ塚","area":"富士山麓","municipality":"裾野市","elevation_m":1450,"camera_url":"https://fujilive.pref.shizuoka.jp/fuji/02_mizugazuka/cam_mizugazuka.jpg","source_url":"https://fujilive.pref.shizuoka.jp/","display_type":"direct_image","coordinate_precision":"landmark","coordinate_source":"水ヶ塚公園公開位置情報"}
+    },
+
+    {
+      "type": "Feature",
+      "geometry": {"type":"Point","coordinates":[138.8748,35.1297]},
+      "properties": {"camera_id":"CAM-035","provider":"国土交通省","office":"中部地方整備局 沼津河川国道事務所","route_no":"1","route_name":"伊豆縦貫自動車道（東駿河湾環状道路）","camera_name":"岡宮 125.3KP","area":"三島・函南","municipality":"沼津市","elevation_m":null,"camera_url":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s318.jpg","source_url":"https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html","display_type":"direct_image","coordinate_precision":"route_kp_approx","coordinate_source":"公式125.3KP・岡宮所在地からの概略位置","location_note":"■ 公式KPと所在地を基にした概略位置。カメラ支柱座標ではありません。"}
     },
     {
       "type": "Feature",
-      "geometry": {"type": "Point", "coordinates": [138.94866, 35.11342]},
-      "properties": {
-        "camera_id": "CAM-043", "provider": "国土交通省", "office": "中部地方整備局 沼津河川国道事務所",
-        "route_no": "1", "route_name": "伊豆縦貫自動車道", "camera_name": "谷田南 114.0KP",
-        "area": "三島・函南", "municipality": "三島市", "elevation_m": 81.3,
-        "camera_url": "https://www.cbr.mlit.go.jp/numazu/bousai/livecamera/izu/",
-        "source_url": "https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html", "display_type": "group_page",
-        "coordinate_precision": "structure_nearby", "coordinate_source": "谷田南高架橋公開座標 + カメラ設置情報"
-      }
+      "geometry": {"type":"Point","coordinates":[138.8790,35.1345]},
+      "properties": {"camera_id":"CAM-036","provider":"国土交通省","office":"中部地方整備局 沼津河川国道事務所","route_no":"1","route_name":"伊豆縦貫自動車道（東駿河湾環状道路）","camera_name":"芹沢川橋 124.9KP","area":"三島・函南","municipality":"沼津市","elevation_m":null,"camera_url":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s319.jpg","source_url":"https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html","display_type":"direct_image","coordinate_precision":"route_kp_approx","coordinate_source":"公式124.9KP・芹沢川橋所在地からの概略位置","location_note":"■ 公式KPと所在地を基にした概略位置。"}
     },
     {
       "type": "Feature",
-      "geometry": {"type": "Point", "coordinates": [138.9453186, 35.0857942]},
-      "properties": {
-        "camera_id": "CAM-045", "provider": "国土交通省", "office": "中部地方整備局 沼津河川国道事務所",
-        "route_no": "1", "route_name": "伊豆縦貫自動車道", "camera_name": "大土肥 111.1KP",
-        "area": "三島・函南", "municipality": "函南町", "elevation_m": 12.1,
-        "camera_url": "https://www.cbr.mlit.go.jp/numazu/bousai/livecamera/izu/",
-        "source_url": "https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html", "display_type": "group_page",
-        "coordinate_precision": "nearby_intersection", "coordinate_source": "大土肥交差点公開座標 + カメラ設置情報"
-      }
+      "geometry": {"type":"Point","coordinates":[138.8945,35.1445]},
+      "properties": {"camera_id":"CAM-037","provider":"国土交通省","office":"中部地方整備局 沼津河川国道事務所","route_no":"1","route_name":"伊豆縦貫自動車道（東駿河湾環状道路）","camera_name":"谷津川橋 123.4KP","area":"三島・函南","municipality":"長泉町","elevation_m":null,"camera_url":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s322.jpg","source_url":"https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html","display_type":"direct_image","coordinate_precision":"route_kp_approx","coordinate_source":"公式123.4KP・谷津川橋所在地からの概略位置","location_note":"■ 公式KPと所在地を基にした概略位置。"}
     },
+    {
+      "type": "Feature",
+      "geometry": {"type":"Point","coordinates":[138.9226,35.1450]},
+      "properties": {"camera_id":"CAM-038","provider":"国土交通省","office":"中部地方整備局 沼津河川国道事務所","route_no":"1","route_name":"伊豆縦貫自動車道（東駿河湾環状道路）","camera_name":"徳倉 119.5KP","area":"三島・函南","municipality":"三島市","elevation_m":null,"camera_url":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s327.jpg","source_url":"https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html","display_type":"direct_image","coordinate_precision":"route_kp_approx","coordinate_source":"公式119.5KP・徳倉所在地からの概略位置","location_note":"■ 公式KPと所在地を基にした概略位置。"}
+    },
+    {
+      "type": "Feature",
+      "geometry": {"type":"Point","coordinates":[138.9290,35.1425]},
+      "properties": {"camera_id":"CAM-039","provider":"国土交通省","office":"中部地方整備局 沼津河川国道事務所","route_no":"1","route_name":"伊豆縦貫自動車道（東駿河湾環状道路）","camera_name":"沢地川橋 118.5KP","area":"三島・函南","municipality":"三島市","elevation_m":null,"camera_url":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s328.jpg","source_url":"https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html","display_type":"direct_image","coordinate_precision":"route_kp_approx","coordinate_source":"公式118.5KP・沢地川橋所在地からの概略位置","location_note":"■ 公式KPと所在地を基にした概略位置。"}
+    },
+    {
+      "type": "Feature",
+      "geometry": {"type":"Point","coordinates":[138.9370,35.1390]},
+      "properties": {"camera_id":"CAM-040","provider":"国土交通省","office":"中部地方整備局 沼津河川国道事務所","route_no":"1","route_name":"伊豆縦貫自動車道（東駿河湾環状道路）","camera_name":"加茂 117.9KP","area":"三島・函南","municipality":"三島市","elevation_m":null,"camera_url":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s329.jpg","source_url":"https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html","display_type":"direct_image","coordinate_precision":"route_kp_approx","coordinate_source":"公式117.9KP・加茂所在地からの概略位置","location_note":"■ 公式KPと所在地を基にした概略位置。"}
+    },
+    {
+      "type": "Feature",
+      "geometry": {"type":"Point","coordinates":[138.9433618,35.1310259]},
+      "properties": {"camera_id":"CAM-041","provider":"国土交通省","office":"中部地方整備局 沼津河川国道事務所","route_no":"1","route_name":"伊豆縦貫自動車道（東駿河湾環状道路）","camera_name":"塚原 116.7KP","area":"三島・函南","municipality":"三島市","elevation_m":null,"camera_url":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s330.jpg","source_url":"https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html","display_type":"direct_image","coordinate_precision":"route_kp_approx","coordinate_source":"公式116.7KP・三島塚原IC付近","location_note":"■ 三島塚原ICを代表位置として表示。"}
+    },
+    {
+      "type": "Feature",
+      "geometry": {"type":"Point","coordinates":[138.9474,35.1215]},
+      "properties": {"camera_id":"CAM-042","provider":"国土交通省","office":"中部地方整備局 沼津河川国道事務所","route_no":"1","route_name":"伊豆縦貫自動車道（東駿河湾環状道路）","camera_name":"谷田北 115.6KP","area":"三島・函南","municipality":"三島市","elevation_m":null,"camera_url":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s332.jpg","source_url":"https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html","display_type":"direct_image","coordinate_precision":"route_kp_approx","coordinate_source":"公式115.6KP・谷田所在地からの概略位置","location_note":"■ 公式KPと所在地を基にした概略位置。"}
+    },
+    {
+      "type": "Feature",
+      "geometry": {"type":"Point","coordinates":[138.94866,35.11342]},
+      "properties": {"camera_id":"CAM-043","provider":"国土交通省","office":"中部地方整備局 沼津河川国道事務所","route_no":"1","route_name":"伊豆縦貫自動車道（東駿河湾環状道路）","camera_name":"谷田南 114.0KP","area":"三島・函南","municipality":"三島市","elevation_m":81.3,"camera_url":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s334.jpg","source_url":"https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html","display_type":"direct_image","coordinate_precision":"structure_nearby","coordinate_source":"谷田南高架橋公開座標 + カメラ設置情報","location_note":"■ 構造物近傍の代表位置。"}
+    },
+    {
+      "type": "Feature",
+      "geometry": {"type":"Point","coordinates":[138.9467,35.1020]},
+      "properties": {"camera_id":"CAM-044","provider":"国土交通省","office":"中部地方整備局 沼津河川国道事務所","route_no":"1","route_name":"伊豆縦貫自動車道（東駿河湾環状道路）","camera_name":"大場 113.1KP","area":"三島・函南","municipality":"三島市","elevation_m":null,"camera_url":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s335.jpg","source_url":"https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html","display_type":"direct_image","coordinate_precision":"route_kp_approx","coordinate_source":"公式113.1KP・大場所在地からの概略位置","location_note":"■ 公式KPと所在地を基にした概略位置。"}
+    },
+    {
+      "type": "Feature",
+      "geometry": {"type":"Point","coordinates":[138.9453186,35.0857942]},
+      "properties": {"camera_id":"CAM-045","provider":"国土交通省","office":"中部地方整備局 沼津河川国道事務所","route_no":"1","route_name":"伊豆縦貫自動車道（東駿河湾環状道路）","camera_name":"大土肥 111.1KP","area":"三島・函南","municipality":"函南町","elevation_m":12.1,"camera_url":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s338.jpg","source_url":"https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html","display_type":"direct_image","coordinate_precision":"nearby_intersection","coordinate_source":"大土肥交差点公開座標 + カメラ設置情報","location_note":"■ 交差点近傍の代表位置。"}
+    },
+
     {
       "type": "Feature",
       "geometry": {"type": "Point", "coordinates": [138.9452403, 35.2944235]},
-      "properties": {
-        "camera_id": "NEXCO-LINK-001", "feature_kind": "link", "provider": "NEXCO中日本", "office": "iHighway中日本",
-        "route_no": "E1", "route_name": "東名高速道路", "camera_name": "iHighway 御殿場IC周辺",
-        "area": "御殿場・箱根", "municipality": "御殿場市", "elevation_m": null,
-        "camera_url": "https://www.c-ihighway.jp/", "source_url": "https://www.c-nexco.co.jp/corporate/safety/torikumi/torikumi/vol08/",
-        "display_type": "external_link", "coordinate_precision": "link_area", "coordinate_source": "MapFan 御殿場IC（代表リンク地点）",
-        "location_note": "カメラ支柱位置ではなく、iHighwayを開くための代表地点"
-      }
+      "properties": {"camera_id":"NEXCO-LINK-001","feature_kind":"link","provider":"NEXCO中日本","office":"iHighway中日本","route_no":"E1","route_name":"東名高速道路","camera_name":"iHighway 御殿場IC周辺","area":"御殿場・箱根","municipality":"御殿場市","elevation_m":null,"camera_url":"https://www.c-ihighway.jp/","source_url":"https://www.c-nexco.co.jp/corporate/safety/torikumi/torikumi/vol08/","display_type":"external_link","coordinate_precision":"link_area","coordinate_source":"MapFan 御殿場IC（代表リンク地点）","location_note":"カメラ支柱位置ではなく、iHighwayを開くための代表地点"}
     },
     {
       "type": "Feature",
       "geometry": {"type": "Point", "coordinates": [138.9107705, 35.327786]},
-      "properties": {
-        "camera_id": "NEXCO-LINK-002", "feature_kind": "link", "provider": "NEXCO中日本", "office": "iHighway中日本",
-        "route_no": "E1A", "route_name": "新東名高速道路", "camera_name": "iHighway 新御殿場IC周辺",
-        "area": "御殿場・小山", "municipality": "御殿場市", "elevation_m": null,
-        "camera_url": "https://www.c-ihighway.jp/", "source_url": "https://www.c-nexco.co.jp/corporate/safety/torikumi/torikumi/vol08/",
-        "display_type": "external_link", "coordinate_precision": "link_area", "coordinate_source": "MapFan 新御殿場IC（代表リンク地点）",
-        "location_note": "カメラ支柱位置ではなく、iHighwayを開くための代表地点"
-      }
+      "properties": {"camera_id":"NEXCO-LINK-002","feature_kind":"link","provider":"NEXCO中日本","office":"iHighway中日本","route_no":"E1A","route_name":"新東名高速道路","camera_name":"iHighway 新御殿場IC周辺","area":"御殿場・小山","municipality":"御殿場市","elevation_m":null,"camera_url":"https://www.c-ihighway.jp/","source_url":"https://www.c-nexco.co.jp/corporate/safety/torikumi/torikumi/vol08/","display_type":"external_link","coordinate_precision":"link_area","coordinate_source":"MapFan 新御殿場IC（代表リンク地点）","location_note":"カメラ支柱位置ではなく、iHighwayを開くための代表地点"}
     },
     {
       "type": "Feature",
       "geometry": {"type": "Point", "coordinates": [138.9072106, 35.2198936]},
-      "properties": {
-        "camera_id": "NEXCO-LINK-003", "feature_kind": "link", "provider": "NEXCO中日本", "office": "iHighway中日本",
-        "route_no": "E1", "route_name": "東名高速道路", "camera_name": "iHighway 裾野IC周辺",
-        "area": "御殿場・裾野", "municipality": "裾野市", "elevation_m": null,
-        "camera_url": "https://www.c-ihighway.jp/", "source_url": "https://www.c-nexco.co.jp/corporate/safety/torikumi/torikumi/vol08/",
-        "display_type": "external_link", "coordinate_precision": "link_area", "coordinate_source": "MapFan 裾野IC（代表リンク地点）",
-        "location_note": "カメラ支柱位置ではなく、iHighwayを開くための代表地点"
-      }
+      "properties": {"camera_id":"NEXCO-LINK-003","feature_kind":"link","provider":"NEXCO中日本","office":"iHighway中日本","route_no":"E1","route_name":"東名高速道路","camera_name":"iHighway 裾野IC周辺","area":"御殿場・裾野","municipality":"裾野市","elevation_m":null,"camera_url":"https://www.c-ihighway.jp/","source_url":"https://www.c-nexco.co.jp/corporate/safety/torikumi/torikumi/vol08/","display_type":"external_link","coordinate_precision":"link_area","coordinate_source":"MapFan 裾野IC（代表リンク地点）","location_note":"カメラ支柱位置ではなく、iHighwayを開くための代表地点"}
     },
     {
       "type": "Feature",
       "geometry": {"type": "Point", "coordinates": [138.9670886, 35.3135243]},
-      "properties": {
-        "camera_id": "NEXCO-LINK-004", "feature_kind": "link", "provider": "NEXCO中日本", "office": "iHighway中日本",
-        "route_no": "E1", "route_name": "東名高速道路", "camera_name": "iHighway 足柄SA周辺",
-        "area": "小山・足柄", "municipality": "小山町", "elevation_m": null,
-        "camera_url": "https://www.c-ihighway.jp/", "source_url": "https://www.c-nexco.co.jp/corporate/safety/torikumi/torikumi/vol08/",
-        "display_type": "external_link", "coordinate_precision": "link_area", "coordinate_source": "MapFan 足柄SA（代表リンク地点）",
-        "location_note": "カメラ支柱位置ではなく、iHighwayを開くための代表地点"
-      }
+      "properties": {"camera_id":"NEXCO-LINK-004","feature_kind":"link","provider":"NEXCO中日本","office":"iHighway中日本","route_no":"E1","route_name":"東名高速道路","camera_name":"iHighway 足柄SA周辺","area":"小山・足柄","municipality":"小山町","elevation_m":null,"camera_url":"https://www.c-ihighway.jp/","source_url":"https://www.c-nexco.co.jp/corporate/safety/torikumi/torikumi/vol08/","display_type":"external_link","coordinate_precision":"link_area","coordinate_source":"MapFan 足柄SA（代表リンク地点）","location_note":"カメラ支柱位置ではなく、iHighwayを開くための代表地点"}
     }
   ]
 }
