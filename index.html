@@ -12,7 +12,7 @@
     <aside class="sidebar">
       <div class="sidebar-header">
         <h1>道路ライブカメラ WebMap</h1>
-        <p>静岡県東部 / v0.3</p>
+        <p>静岡県東部 / v0.4</p>
       </div>
 
       <div class="summary" aria-live="polite">
@@ -51,6 +51,16 @@
         <input id="search-input" type="search" placeholder="例: 乙女峠 / 138 / 箱根">
       </section>
 
+      <section class="control-group geojson-import">
+        <label for="geojson-input">GeoJSONインポート</label>
+        <input id="geojson-input" type="file" accept=".geojson,.json,application/geo+json,application/json">
+        <div class="geojson-actions">
+          <span id="geojson-info">未読込</span>
+          <button id="geojson-clear" type="button" disabled>クリア</button>
+        </div>
+        <p class="small">ローカルファイルを一時表示します。ページ再読込で消え、サーバーやGitHubには保存しません。</p>
+      </section>
+
       <div class="button-row">
         <button id="terrain-toggle" type="button" aria-pressed="false">3D地形 ON</button>
         <button id="reset-view" type="button">全域表示</button>
@@ -63,6 +73,7 @@
         <div><span class="legend-color nexco"></span>緑：NEXCO</div>
         <div class="legend-shape-row"><span class="legend-circle-shape"></span>〇：座標位置</div>
         <div class="legend-shape-row"><span class="legend-square-shape"></span>□：近傍</div>
+        <div><span class="legend-color imported"></span>紫：インポートGeoJSON</div>
         <p class="small">※ □は距離標・地名・道路線形などから配置した代表位置を含み、カメラ支柱そのものの座標ではない場合があります。NEXCOはiHighwayを開くための代表リンク地点です。</p>
       </section>
 
