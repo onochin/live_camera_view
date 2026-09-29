@@ -8,7 +8,15 @@
 
   if (!publicMode) return;
 
+  window.LIVE_CAMERA_PUBLIC_MODE = true;
   document.documentElement.dataset.publicMode = 'true';
+
+  // 公開モードでは、Popup生成より前に外部画像通信そのものを禁止する。
+  // 地理院タイルやTerrainはMapLibreのネットワーク取得であり、img-srcの対象外。
+  const csp = document.createElement('meta');
+  csp.httpEquiv = 'Content-Security-Policy';
+  csp.content = "img-src 'self' data: blob:;";
+  document.head.appendChild(csp);
 
   function isDirectImageUrl(href) {
     try {
@@ -45,7 +53,7 @@
     const notice = document.createElement('div');
     notice.id = 'public-mode-notice';
     notice.className = 'status';
-    notice.innerHTML = '公開モード：外部ライブカメラ画像は埋め込まず、公式サイトへのリンクのみ表示します。<br><a href="docs/public_notice.html" target="_blank" rel="noopener">出典・利用上の注意</a>';
+    notice.innerHTML = '公開モード：外部ライブカメラ画像は取得・埋め込みせず、公式サイトへのリンクのみ表示します。<br><a href="docs/public_notice.html" target="_blank" rel="noopener">出典・利用上の注意</a>';
     header.insertAdjacentElement('afterend', notice);
   }
 
