@@ -72,7 +72,8 @@ html, body {
 }
 
 select,
-input[type="search"] {
+input[type="search"],
+input[type="file"] {
   width: 100%;
   min-height: 40px;
   padding: 8px 10px;
@@ -81,6 +82,39 @@ input[type="search"] {
   background: #fff;
   color: #182230;
   font-size: 14px;
+}
+
+input[type="file"] {
+  padding: 6px 8px;
+  font-size: 12px;
+}
+
+.geojson-import {
+  padding-top: 2px;
+}
+
+.geojson-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 7px;
+}
+
+.geojson-actions span {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  color: #667085;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.geojson-actions button {
+  flex: 0 0 auto;
+  min-height: 32px;
+  padding: 4px 10px;
+  font-size: 12px;
 }
 
 .button-row {
@@ -100,7 +134,13 @@ button {
   font-weight: 600;
 }
 
-button:hover { background: #f1f5f9; }
+button:hover:not(:disabled) { background: #f1f5f9; }
+
+button:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
 button[aria-pressed="true"] {
   background: #1f5f8b;
   color: #fff;
@@ -143,6 +183,7 @@ button[aria-pressed="true"] {
 .legend-color.prefecture { background: #e07b39; }
 .legend-color.mlit { background: #2f6db2; }
 .legend-color.nexco { background: #2f8f5b; }
+.legend-color.imported { background: #8b5cf6; }
 
 .legend-shape-row {
   padding-top: 3px;
@@ -235,6 +276,13 @@ button[aria-pressed="true"] {
   background: #eef4fa;
   color: #155a8a;
   text-decoration: none;
+  font-size: 12px;
+}
+
+.geojson-property {
+  margin: 3px 0;
+  overflow-wrap: anywhere;
+  color: #4b5563;
   font-size: 12px;
 }
 
