@@ -13,12 +13,16 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
   const searchInput = document.getElementById('search-input');
   const terrainToggle = document.getElementById('terrain-toggle');
   const resetView = document.getElementById('reset-view');
+  const geojsonInput = document.getElementById('geojson-input');
+  const geojsonClear = document.getElementById('geojson-clear');
+  const geojsonInfo = document.getElementById('geojson-info');
 
   let cameraData = null;
   let terrainEnabled = false;
 
-  const PRECISE_POSITION_TYPES = ['landmark', 'camera', 'structure'];
+  const PRECISE_POSITION_TYPES = ['landmark', 'camera', 'structure', 'published_plus_code'];
   const REGISTERED_CAMERA_TOTAL = 76;
+  const EMPTY_FEATURE_COLLECTION = { type: 'FeatureCollection', features: [] };
 
   const SOURCE_URLS = {
     hakone: 'https://www.cbr.mlit.go.jp/numazu/bousai/livecamera/hakone/',
@@ -113,7 +117,7 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
     const p = properties || {};
     const targetUrl = safeUrl(p.camera_url);
     const sourceUrl = safeUrl(p.source_url);
-    const elevation = p.elevation_m ? `${escapeHtml(p.elevation_m)} m` : '未登録';
+    const elevation = p.elevation_m != null ? `${escapeHtml(p.elevation_m)} m` : '未登録';
     const isImage = p.display_type === 'direct_image' && targetUrl !== '#';
     const isExternalLink = p.display_type === 'external_link';
     const image = isImage
@@ -219,6 +223,7 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
   }
 
   function recordToFeature(record) {
+    const isPublishedCoordinate = record.p === 'published_plus_code';
     return {
       type: 'Feature',
       geometry: { type: 'Point', coordinates: record.c },
@@ -231,13 +236,16 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
         camera_name: record.n,
         area: record.a,
         municipality: record.m,
-        elevation_m: null,
+        elevation_m: record.e ?? null,
         camera_url: record.img,
         source_url: SOURCE_URLS[record.g] || 'https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html',
         display_type: 'direct_image',
-        coordinate_precision: 'nearby_route',
-        coordinate_source: '距離標・地名・道路線形から置いた近傍位置（要精査）',
-        location_note: '□ 近傍位置。距離標・地名・道路線形から配置した代表位置で、カメラ支柱の正確な座標ではありません。'
+        coordinate_precision: record.p || 'nearby_route',
+        coordinate_source: record.src || '距離標・地名・道路線形から置いた近傍位置（要精査）',
+        plus_code: record.pc || null,
+        location_note: isPublishedCoordinate
+          ? `〇 公開Plus Code（${record.pc}）を座標化した位置。`
+          : '□ 近傍位置。距離標・地名・道路線形から配置した代表位置で、カメラ支柱の正確な座標ではありません。'
       }
     };
   }
@@ -249,6 +257,155 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
       .setLngLat(feature.geometry.coordinates.slice())
       .setHTML(popupHtml(feature.properties))
       .addTo(map);
+  }
+
+  function normalizeGeoJSON(value) {
+    if (!value || typeof value !== 'object') {
+      throw new Error('GeoJSONオブジェクトではありません。');
+    }
+    if (value.type === 'FeatureCollection' && Array.isArray(value.features)) return value;
+    if (value.type === 'Feature' && value.geometry) {
+      return { type: 'FeatureCollection', features: [value] };
+    }
+    const geometryTypes = new Set([
+      'Point', 'MultiPoint', 'LineString', 'MultiLineString',
+      'Polygon', 'MultiPolygon', 'GeometryCollection'
+    ]);
+    if (geometryTypes.has(value.type)) {
+      return {
+        type: 'FeatureCollection',
+        features: [{ type: 'Feature', properties: {}, geometry: value }]
+      };
+    }
+    throw new Error('FeatureCollection / Feature / Geometry形式のGeoJSONを選択してください。');
+  }
+
+  function extendBoundsFromGeometry(geometry, bounds) {
+    if (!geometry) return;
+    if (geometry.type === 'GeometryCollection') {
+      (geometry.geometries || []).forEach(item => extendBoundsFromGeometry(item, bounds));
+      return;
+    }
+
+    const visit = coordinates => {
+      if (!Array.isArray(coordinates)) return;
+      if (
+        coordinates.length >= 2 &&
+        typeof coordinates[0] === 'number' &&
+        typeof coordinates[1] === 'number' &&
+        Number.isFinite(coordinates[0]) &&
+        Number.isFinite(coordinates[1])
+      ) {
+        bounds.extend([coordinates[0], coordinates[1]]);
+        return;
+      }
+      coordinates.forEach(visit);
+    };
+
+    visit(geometry.coordinates);
+  }
+
+  function fitToImportedGeoJSON(data) {
+    const bounds = new maplibregl.LngLatBounds();
+    data.features.forEach(feature => extendBoundsFromGeometry(feature.geometry, bounds));
+    if (!bounds.isEmpty()) {
+      map.fitBounds(bounds, { padding: 60, maxZoom: 15, duration: 500 });
+    }
+  }
+
+  function importedPopupHtml(properties) {
+    const entries = Object.entries(properties || {}).slice(0, 20);
+    const rows = entries.length
+      ? entries.map(([key, value]) =>
+          `<div class="geojson-property"><strong>${escapeHtml(key)}</strong>: ${escapeHtml(
+            typeof value === 'object' ? JSON.stringify(value) : value
+          )}</div>`
+        ).join('')
+      : '<div class="meta">属性なし</div>';
+
+    return `<div class="camera-popup"><h3>インポートGeoJSON</h3>${rows}</div>`;
+  }
+
+  function setupGeoJSONImportLayers() {
+    map.addSource('user-geojson', {
+      type: 'geojson',
+      data: EMPTY_FEATURE_COLLECTION
+    });
+
+    map.addLayer({
+      id: 'user-geojson-fill',
+      type: 'fill',
+      source: 'user-geojson',
+      filter: ['in', ['geometry-type'], ['literal', ['Polygon', 'MultiPolygon']]],
+      paint: {
+        'fill-color': '#8b5cf6',
+        'fill-opacity': 0.15,
+        'fill-outline-color': '#7c3aed'
+      }
+    });
+
+    map.addLayer({
+      id: 'user-geojson-line',
+      type: 'line',
+      source: 'user-geojson',
+      filter: ['in', ['geometry-type'], ['literal', ['LineString', 'MultiLineString']]],
+      paint: {
+        'line-color': '#7c3aed',
+        'line-width': 3,
+        'line-opacity': 0.9
+      }
+    });
+
+    map.addLayer({
+      id: 'user-geojson-point',
+      type: 'circle',
+      source: 'user-geojson',
+      filter: ['in', ['geometry-type'], ['literal', ['Point', 'MultiPoint']]],
+      paint: {
+        'circle-radius': 6,
+        'circle-color': '#8b5cf6',
+        'circle-stroke-color': '#ffffff',
+        'circle-stroke-width': 2
+      }
+    });
+
+    ['user-geojson-fill', 'user-geojson-line', 'user-geojson-point'].forEach(layerId => {
+      map.on('click', layerId, event => {
+        const feature = event.features?.[0];
+        if (!feature) return;
+        new maplibregl.Popup({ maxWidth: '340px' })
+          .setLngLat(event.lngLat)
+          .setHTML(importedPopupHtml(feature.properties))
+          .addTo(map);
+      });
+      map.on('mouseenter', layerId, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', layerId, () => { map.getCanvas().style.cursor = ''; });
+    });
+  }
+
+  async function loadImportedGeoJSON(file) {
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      const data = normalizeGeoJSON(parsed);
+      map.getSource('user-geojson').setData(data);
+      fitToImportedGeoJSON(data);
+      geojsonClear.disabled = false;
+      geojsonInfo.textContent = `${file.name}：${data.features.length} feature`;
+    } catch (error) {
+      console.error(error);
+      geojsonInfo.textContent = `読み込み失敗：${error.message}`;
+      geojsonInput.value = '';
+    }
+  }
+
+  function clearImportedGeoJSON() {
+    const source = map.getSource('user-geojson');
+    if (source) source.setData(EMPTY_FEATURE_COLLECTION);
+    geojsonInput.value = '';
+    geojsonClear.disabled = true;
+    geojsonInfo.textContent = '未読込';
   }
 
   async function loadCameras() {
@@ -349,6 +506,7 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
       map.on('mouseleave', layerId, () => { map.getCanvas().style.cursor = ''; });
     });
 
+    setupGeoJSONImportLayers();
     STATUS.textContent = statusText(cameraData.features);
   }
 
@@ -366,6 +524,8 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
   providerSelect.addEventListener('change', applyFilters);
   areaSelect.addEventListener('change', applyFilters);
   searchInput.addEventListener('input', applyFilters);
+  geojsonInput.addEventListener('change', () => loadImportedGeoJSON(geojsonInput.files?.[0]));
+  geojsonClear.addEventListener('click', clearImportedGeoJSON);
 
   terrainToggle.addEventListener('click', () => {
     terrainEnabled = !terrainEnabled;
