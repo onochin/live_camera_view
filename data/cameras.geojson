@@ -3,9 +3,10 @@
   "metadata": {
     "title": "静岡県東部 道路ライブカメラ位置 初版",
     "inventory_total": 68,
-    "mapped_count": 9,
+    "mapped_count": 13,
+    "auxiliary_link_count": 4,
     "checked_at": "2026-09-29",
-    "note": "camera_inventory.csv のうち、公開情報から位置を確認できた代表地点のみを初版として収録。camera/structure以外は峠・交差点等の代表地点であり、カメラ支柱そのものの座標とは限らない。"
+    "note": "camera_inventory.csv のうち、公開情報から位置を確認できた代表地点を収録。NEXCO中日本はカメラ支柱位置ではなく、iHighwayを開くための代表リンク地点を追加している。landmark等は●、nearby/link_area等の近傍・代表位置は■で表示する。"
   },
   "features": [
     {
@@ -114,6 +115,54 @@
         "camera_url": "https://www.cbr.mlit.go.jp/numazu/bousai/livecamera/izu/",
         "source_url": "https://www.cbr.mlit.go.jp/numazu/ifmob/livecam-road.html", "display_type": "group_page",
         "coordinate_precision": "nearby_intersection", "coordinate_source": "大土肥交差点公開座標 + カメラ設置情報"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {"type": "Point", "coordinates": [138.9452403, 35.2944235]},
+      "properties": {
+        "camera_id": "NEXCO-LINK-001", "feature_kind": "link", "provider": "NEXCO中日本", "office": "iHighway中日本",
+        "route_no": "E1", "route_name": "東名高速道路", "camera_name": "iHighway 御殿場IC周辺",
+        "area": "御殿場・箱根", "municipality": "御殿場市", "elevation_m": null,
+        "camera_url": "https://www.c-ihighway.jp/", "source_url": "https://www.c-nexco.co.jp/corporate/safety/torikumi/torikumi/vol08/",
+        "display_type": "external_link", "coordinate_precision": "link_area", "coordinate_source": "MapFan 御殿場IC（代表リンク地点）",
+        "location_note": "カメラ支柱位置ではなく、iHighwayを開くための代表地点"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {"type": "Point", "coordinates": [138.9107705, 35.327786]},
+      "properties": {
+        "camera_id": "NEXCO-LINK-002", "feature_kind": "link", "provider": "NEXCO中日本", "office": "iHighway中日本",
+        "route_no": "E1A", "route_name": "新東名高速道路", "camera_name": "iHighway 新御殿場IC周辺",
+        "area": "御殿場・小山", "municipality": "御殿場市", "elevation_m": null,
+        "camera_url": "https://www.c-ihighway.jp/", "source_url": "https://www.c-nexco.co.jp/corporate/safety/torikumi/torikumi/vol08/",
+        "display_type": "external_link", "coordinate_precision": "link_area", "coordinate_source": "MapFan 新御殿場IC（代表リンク地点）",
+        "location_note": "カメラ支柱位置ではなく、iHighwayを開くための代表地点"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {"type": "Point", "coordinates": [138.9072106, 35.2198936]},
+      "properties": {
+        "camera_id": "NEXCO-LINK-003", "feature_kind": "link", "provider": "NEXCO中日本", "office": "iHighway中日本",
+        "route_no": "E1", "route_name": "東名高速道路", "camera_name": "iHighway 裾野IC周辺",
+        "area": "御殿場・裾野", "municipality": "裾野市", "elevation_m": null,
+        "camera_url": "https://www.c-ihighway.jp/", "source_url": "https://www.c-nexco.co.jp/corporate/safety/torikumi/torikumi/vol08/",
+        "display_type": "external_link", "coordinate_precision": "link_area", "coordinate_source": "MapFan 裾野IC（代表リンク地点）",
+        "location_note": "カメラ支柱位置ではなく、iHighwayを開くための代表地点"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {"type": "Point", "coordinates": [138.9670886, 35.3135243]},
+      "properties": {
+        "camera_id": "NEXCO-LINK-004", "feature_kind": "link", "provider": "NEXCO中日本", "office": "iHighway中日本",
+        "route_no": "E1", "route_name": "東名高速道路", "camera_name": "iHighway 足柄SA周辺",
+        "area": "小山・足柄", "municipality": "小山町", "elevation_m": null,
+        "camera_url": "https://www.c-ihighway.jp/", "source_url": "https://www.c-nexco.co.jp/corporate/safety/torikumi/torikumi/vol08/",
+        "display_type": "external_link", "coordinate_precision": "link_area", "coordinate_source": "MapFan 足柄SA（代表リンク地点）",
+        "location_note": "カメラ支柱位置ではなく、iHighwayを開くための代表地点"
       }
     }
   ]
