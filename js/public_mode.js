@@ -3,8 +3,9 @@
 
   const params = new URLSearchParams(window.location.search);
   const forcedMode = params.get('public');
-  const isGitHubPages = window.location.hostname.endsWith('.github.io');
-  const publicMode = forcedMode === '1' || (forcedMode !== '0' && isGitHubPages);
+  const hostname = window.location.hostname;
+  const isLocalHost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+  const publicMode = forcedMode === '1' || (forcedMode !== '0' && !isLocalHost);
 
   if (!publicMode) return;
 
