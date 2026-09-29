@@ -1,0 +1,7 @@
+source_id,provider,office,scope,catalog_url,individual_camera_mode,update_note,status,checked_at
+SRC-001,静岡県,沼津土木事務所,御殿場・小山・三島・函南・伊豆北中部,https://snowlive.pref.shizuoka.jp/,direct_image,静止画。公式ページで一覧・地図表示あり,verified,2026-09-29
+SRC-002,静岡県,富士土木事務所,富士山麓・富士宮・裾野・富士,https://fujilive.pref.shizuoka.jp/,direct_image,静止画。公式注意事項ではライブ映像は1分毎更新,verified,2026-09-29
+SRC-003,静岡県,熱海土木事務所,熱海・伊東・伊豆東部,https://izu-e.pref.shizuoka.jp/,direct_image,静止画。公式一覧から個別画像を取得可能,verified,2026-09-29
+SRC-004,国土交通省,中部地方整備局 沼津河川国道事務所,国道1号箱根・国道138号須走・国道246号小山・伊豆縦貫道,https://www.cbr.mlit.go.jp/numazu/bousai/livecamera/,group_page,路線別ページで提供。モバイル版の道路一覧でカメラ名・KPを確認可能,verified,2026-09-29
+SRC-005,静岡県道路公社,静岡県道路公社,伊豆スカイライン・箱根スカイライン,https://camera.siz-road.or.jp/,camera_page,玄岳IC付近、箱根スカイライン料金所付近を確認,verified,2026-09-29
+SRC-006,NEXCO中日本,NEXCO中日本,東名・新東名ほか,https://ihighway.jp/,dynamic_service,iHighway上でライブカメラを提供。画像は5～10分更新と案内。個別カメラURLは初期台帳では固定化しない,verified_service_only,2026-09-29
