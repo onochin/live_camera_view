@@ -8,10 +8,20 @@
   - 公式公開元の台帳
   - 管理主体・事務所・公開方式・公式URLを管理
 - `camera_inventory.csv`
-  - 個別カメラ台帳
-  - 2026-09-29 時点で、公式一覧から確認できた道路カメラ 68件を収録
+  - Step 1で整理した既存カメラ台帳
+  - 2026-09-29 時点で68件を収録
+- `camera_inventory_additional.csv`
+  - v0.3で追加した天城北道路8地点の台帳
+- `cameras.geojson`
+  - v0.2までのWebMap表示データ
+- `cameras_additional.json`
+  - v0.3で追加した31地点
+  - 国道1号箱根峠13、国道138号須走3、国道246号小山7、天城北道路8
 
-## camera_inventory.csv の主な項目
+登録カメラは `camera_inventory.csv` 68件 + `camera_inventory_additional.csv` 8件 = **76件**。
+NEXCO中日本の4地点はiHighwayへの代表リンク地点であり、このカメラ件数には含めない。
+
+## 主な項目
 
 | 項目 | 内容 |
 |---|---|
@@ -23,21 +33,28 @@
 | `route_name` | 路線名 |
 | `camera_name` | カメラ名称 |
 | `area` | WebMap用の大まかな地域分類 |
-| `municipality` | 市町村。公式情報だけでは確定できないものは空欄 |
+| `municipality` | 市町村 |
 | `km_point` | 国交省カメラ等のKP |
-| `lat` / `lon` | 緯度経度。未確定は空欄 |
-| `elevation_m` | 標高。未確定は空欄 |
-| `camera_url` | カメラ表示先。直接画像・個別ページ・路線別ページのいずれか |
+| `lat` / `lon` | 緯度経度 |
+| `elevation_m` | 標高 |
+| `camera_url` | カメラ表示先 |
 | `source_url` | 公式一覧・出典ページ |
-| `display_type` | `direct_image` / `page` / `group_page` |
+| `display_type` | `direct_image` / `page` / `group_page` / `external_link` |
 | `geo_status` | 位置確定状況 |
-| `elevation_status` | 標高確定状況 |
 | `checked_at` | 最終確認日 |
+
+## WebMap上の位置区分
+
+- `〇 座標位置`
+  - 峠・施設等の位置を比較的明確に確認できたもの
+- `□ 近傍`
+  - 距離標・地名・道路線形・IC・構造物等を基に置いた代表位置
+  - カメラ支柱そのものの正確な座標とは限らない
 
 ## 方針
 
 - カメラ画像そのものはリポジトリへ保存しない。
-- 原則として公式公開元への参照のみを保持する。
-- 直リンク可否・再配信可否が不明な公開元については、WebMapから公式ページを開く方式を優先する。
-- NEXCO中日本は iHighway の動的サービスとして扱い、初期版では個別カメラURLを固定しない。
-- 緯度経度・標高は、次の作業で出典を明確にしたうえで付与する。推測値を正本にしない。
+- 公開元の公式URL・個別JPEG URLを参照する。
+- WebMapに置く位置がカメラ支柱位置と断定できない場合は `□ 近傍` として明示する。
+- NEXCO中日本はiHighwayの動的サービスとして扱い、カメラ支柱ではなく代表リンク地点を表示する。
+- 近傍位置は今後、公開資料等から位置を精査できたものから更新する。
