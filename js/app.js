@@ -17,6 +17,8 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
   let cameraData = null;
   let terrainEnabled = false;
 
+  const PRECISE_POSITION_TYPES = ['landmark', 'camera', 'structure'];
+
   const style = {
     version: 8,
     sources: {
@@ -93,28 +95,46 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
     }
   }
 
+  function positionLabel(precision) {
+    if (PRECISE_POSITION_TYPES.includes(precision)) return '● 比較的確かな位置';
+    if (precision === 'link_area') return '■ リンク用代表地点';
+    return '■ 近傍・代表位置';
+  }
+
   function popupHtml(properties) {
     const p = properties || {};
-    const imageUrl = safeUrl(p.camera_url);
+    const targetUrl = safeUrl(p.camera_url);
     const sourceUrl = safeUrl(p.source_url);
     const elevation = p.elevation_m ? `${escapeHtml(p.elevation_m)} m` : '未登録';
     const precision = p.coordinate_precision ? escapeHtml(p.coordinate_precision) : '未登録';
-    const isImage = p.display_type === 'direct_image' && imageUrl !== '#';
+    const isImage = p.display_type === 'direct_image' && targetUrl !== '#';
+    const isExternalLink = p.display_type === 'external_link';
     const image = isImage
-      ? `<img src="${imageUrl}?t=${Date.now()}" alt="${escapeHtml(p.camera_name)}のライブカメラ画像" referrerpolicy="no-referrer">`
+      ? `<img src="${targetUrl}?t=${Date.now()}" alt="${escapeHtml(p.camera_name)}のライブカメラ画像" referrerpolicy="no-referrer">`
+      : '';
+    const primaryLabel = isExternalLink
+      ? 'iHighwayを開く'
+      : p.display_type === 'group_page'
+        ? 'カメラ一覧を開く'
+        : 'カメラを開く';
+    const locationNote = p.location_note
+      ? `<div class="position-note">${escapeHtml(p.location_note)}</div>`
       : '';
 
     return `
       <div class="camera-popup">
         <h3>${escapeHtml(p.camera_name)}</h3>
-        <div class="meta">${escapeHtml(p.route_name)} ${p.route_no ? `(${escapeHtml(p.route_no)}号)` : ''}</div>
+        <div class="meta">${escapeHtml(p.route_name)} ${p.route_no ? `(${escapeHtml(p.route_no)})` : ''}</div>
         <div class="meta">${escapeHtml(p.provider)} / ${escapeHtml(p.office)}</div>
         <div class="meta">${escapeHtml(p.municipality)}・${escapeHtml(p.area)}</div>
-        <div class="meta">標高: ${elevation} / 座標精度: ${precision}</div>
+        <div class="meta">標高: ${elevation}</div>
+        <div class="meta">位置区分: ${escapeHtml(positionLabel(p.coordinate_precision))}</div>
+        <div class="meta">座標種別: ${precision}</div>
+        ${locationNote}
         ${image}
         <div class="links">
-          ${imageUrl !== '#' ? `<a href="${imageUrl}" target="_blank" rel="noopener">カメラを開く</a>` : ''}
-          ${sourceUrl !== '#' ? `<a href="${sourceUrl}" target="_blank" rel="noopener">公式一覧</a>` : ''}
+          ${targetUrl !== '#' ? `<a href="${targetUrl}" target="_blank" rel="noopener">${primaryLabel}</a>` : ''}
+          ${sourceUrl !== '#' ? `<a href="${sourceUrl}" target="_blank" rel="noopener">公式情報</a>` : ''}
         </div>
       </div>`;
   }
@@ -129,6 +149,12 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
     }
   }
 
+  function statusText(features) {
+    const links = features.filter(f => f.properties?.feature_kind === 'link').length;
+    const cameras = features.length - links;
+    return `${features.length}マーカーを表示中（カメラ ${cameras} / リンク ${links} / 台帳 ${cameraData?.metadata?.inventory_total ?? 68}）`;
+  }
+
   function applyFilters() {
     if (!cameraData || !map.getSource('cameras')) return;
 
@@ -141,7 +167,7 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
       if (provider !== 'all' && p.provider !== provider) return false;
       if (area !== 'all' && p.area !== area) return false;
       if (query) {
-        const haystack = [p.camera_name, p.route_name, p.route_no, p.area, p.municipality, p.office]
+        const haystack = [p.camera_name, p.route_name, p.route_no, p.area, p.municipality, p.office, p.provider]
           .filter(Boolean)
           .join(' ')
           .toLowerCase();
@@ -152,7 +178,7 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
 
     map.getSource('cameras').setData({ type: 'FeatureCollection', features: filtered });
     mappedCountEl.textContent = String(filtered.length);
-    STATUS.textContent = `${filtered.length}地点を表示中（台帳総数 ${cameraData.metadata?.inventory_total ?? 68}）`;
+    STATUS.textContent = statusText(filtered);
   }
 
   function setBaseLayer(base) {
@@ -160,6 +186,39 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
     Object.entries(layerMap).forEach(([key, layerId]) => {
       map.setLayoutProperty(layerId, 'visibility', key === base ? 'visible' : 'none');
     });
+  }
+
+  function makeSquareImage(hex) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 24;
+    canvas.height = 24;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(1, 1, 22, 22);
+    ctx.fillStyle = hex;
+    ctx.fillRect(4, 4, 16, 16);
+    return ctx.getImageData(0, 0, 24, 24);
+  }
+
+  function addApproximateMarkerImages() {
+    const images = {
+      'square-prefecture': '#e07b39',
+      'square-mlit': '#2f6db2',
+      'square-nexco': '#7653b8',
+      'square-default': '#6b7280'
+    };
+    Object.entries(images).forEach(([id, color]) => {
+      if (!map.hasImage(id)) map.addImage(id, makeSquareImage(color));
+    });
+  }
+
+  function openPopup(event) {
+    const feature = event.features?.[0];
+    if (!feature) return;
+    new maplibregl.Popup({ maxWidth: '330px' })
+      .setLngLat(feature.geometry.coordinates.slice())
+      .setHTML(popupHtml(feature.properties))
+      .addTo(map);
   }
 
   async function loadCameras() {
@@ -172,21 +231,46 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
     populateAreas(cameraData.features);
 
     map.addSource('cameras', { type: 'geojson', data: cameraData });
+    addApproximateMarkerImages();
+
+    const preciseFilter = ['in', ['get', 'coordinate_precision'], ['literal', PRECISE_POSITION_TYPES]];
+    const approximateFilter = ['!', preciseFilter];
+
     map.addLayer({
-      id: 'camera-points',
+      id: 'camera-points-precise',
       type: 'circle',
       source: 'cameras',
+      filter: preciseFilter,
       paint: {
         'circle-radius': ['interpolate', ['linear'], ['zoom'], 7, 5, 12, 9],
         'circle-color': [
           'match', ['get', 'provider'],
           '国土交通省', '#2f6db2',
           '静岡県', '#e07b39',
+          'NEXCO中日本', '#7653b8',
           '#6b7280'
         ],
         'circle-stroke-color': '#ffffff',
         'circle-stroke-width': 2,
         'circle-opacity': 0.95
+      }
+    });
+
+    map.addLayer({
+      id: 'camera-points-approximate',
+      type: 'symbol',
+      source: 'cameras',
+      filter: approximateFilter,
+      layout: {
+        'icon-image': [
+          'match', ['get', 'provider'],
+          '静岡県', 'square-prefecture',
+          '国土交通省', 'square-mlit',
+          'NEXCO中日本', 'square-nexco',
+          'square-default'
+        ],
+        'icon-size': ['interpolate', ['linear'], ['zoom'], 7, 0.75, 12, 1.0],
+        'icon-allow-overlap': true
       }
     });
 
@@ -198,7 +282,7 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
       layout: {
         'text-field': ['get', 'camera_name'],
         'text-size': 12,
-        'text-offset': [0, 1.2],
+        'text-offset': [0, 1.4],
         'text-anchor': 'top',
         'text-allow-overlap': false
       },
@@ -209,20 +293,13 @@ import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-
       }
     });
 
-    map.on('click', 'camera-points', event => {
-      const feature = event.features?.[0];
-      if (!feature) return;
-      const coordinates = feature.geometry.coordinates.slice();
-      new maplibregl.Popup({ maxWidth: '320px' })
-        .setLngLat(coordinates)
-        .setHTML(popupHtml(feature.properties))
-        .addTo(map);
+    ['camera-points-precise', 'camera-points-approximate'].forEach(layerId => {
+      map.on('click', layerId, openPopup);
+      map.on('mouseenter', layerId, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', layerId, () => { map.getCanvas().style.cursor = ''; });
     });
 
-    map.on('mouseenter', 'camera-points', () => { map.getCanvas().style.cursor = 'pointer'; });
-    map.on('mouseleave', 'camera-points', () => { map.getCanvas().style.cursor = ''; });
-
-    STATUS.textContent = `${cameraData.features.length}地点を表示。座標未確定地点は台帳に保持しています。`;
+    STATUS.textContent = statusText(cameraData.features);
   }
 
   map.on('load', async () => {
