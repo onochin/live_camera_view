@@ -1,0 +1,39 @@
+{
+  "checked_at": "2026-09-29",
+  "records": [
+    {"id":"CAM-046","c":[139.0118,35.1837],"r":"1","rn":"国道1号","n":"茨ヶ平 103.0KP","a":"箱根峠","m":"函南町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s302.jpg","g":"hakone"},
+    {"id":"CAM-047","c":[139.0095,35.1818],"r":"1","rn":"国道1号","n":"茨ヶ平 103.4KP","a":"箱根峠","m":"函南町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s303.jpg","g":"hakone"},
+    {"id":"CAM-048","c":[139.0075,35.1804],"r":"1","rn":"国道1号","n":"茨ヶ平 103.7KP","a":"箱根峠","m":"函南町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s304.jpg","g":"hakone"},
+    {"id":"CAM-049","c":[139.0050,35.1787],"r":"1","rn":"国道1号","n":"茨ヶ平 104.1KP","a":"箱根峠","m":"函南町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s306.jpg","g":"hakone"},
+    {"id":"CAM-050","c":[139.0029,35.1764],"r":"1","rn":"国道1号","n":"施行平 104.5KP","a":"箱根峠","m":"函南町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s307.jpg","g":"hakone"},
+    {"id":"CAM-051","c":[139.0002,35.1736],"r":"1","rn":"国道1号","n":"石割坂 105.0KP","a":"箱根峠","m":"函南町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s308.jpg","g":"hakone"},
+    {"id":"CAM-052","c":[138.9987,35.1719],"r":"1","rn":"国道1号","n":"石割坂 105.3KP","a":"箱根峠","m":"函南町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s309.jpg","g":"hakone"},
+    {"id":"CAM-053","c":[138.9972,35.1702],"r":"1","rn":"国道1号","n":"石割坂 105.6KP","a":"箱根峠","m":"函南町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s310.jpg","g":"hakone"},
+    {"id":"CAM-054","c":[138.9962,35.1691],"r":"1","rn":"国道1号","n":"石割坂 105.8KP","a":"箱根峠","m":"函南町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s311.jpg","g":"hakone"},
+    {"id":"CAM-055","c":[138.9945,35.1669],"r":"1","rn":"国道1号","n":"石割坂 106.2KP","a":"箱根峠","m":"函南町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s312.jpg","g":"hakone"},
+    {"id":"CAM-056","c":[138.9934,35.1658],"r":"1","rn":"国道1号","n":"枯木 106.4KP","a":"箱根峠","m":"函南町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s313.jpg","g":"hakone"},
+    {"id":"CAM-057","c":[138.9923,35.1646],"r":"1","rn":"国道1号","n":"枯木 106.6KP","a":"箱根峠","m":"函南町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s314.jpg","g":"hakone"},
+    {"id":"CAM-058","c":[138.9900,35.1627],"r":"1","rn":"国道1号","n":"エビノ木 107.0KP","a":"箱根峠","m":"函南町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s315.jpg","g":"hakone"},
+
+    {"id":"CAM-059","c":[138.8665,35.3510],"r":"138","rn":"国道138号","n":"須走 15.4KP","a":"小山・須走","m":"小山町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s340.jpg","g":"r138"},
+    {"id":"CAM-060","c":[138.8630,35.3556],"r":"138","rn":"国道138号","n":"須走 16.0KP","a":"小山・須走","m":"小山町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s341.jpg","g":"r138"},
+    {"id":"CAM-061","c":[138.8588,35.3620],"r":"138","rn":"国道138号","n":"須走 16.9KP","a":"小山・須走","m":"小山町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s342.jpg","g":"r138"},
+
+    {"id":"CAM-068","c":[138.9915,35.3560],"r":"246","rn":"国道246号","n":"生土 89.4KP","a":"小山町","m":"小山町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s354.jpg","g":"r246"},
+    {"id":"CAM-067","c":[138.9860,35.3615],"r":"246","rn":"国道246号","n":"生土 90.0KP","a":"小山町","m":"小山町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s355.jpg","g":"r246"},
+    {"id":"CAM-066","c":[138.9825,35.3650],"r":"246","rn":"国道246号","n":"生土 90.4KP","a":"小山町","m":"小山町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s356.jpg","g":"r246"},
+    {"id":"CAM-065","c":[138.9730,35.3730],"r":"246","rn":"国道246号","n":"中島 91.5KP","a":"小山町","m":"小山町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s359.jpg","g":"r246"},
+    {"id":"CAM-064","c":[138.9610,35.3840],"r":"246","rn":"国道246号","n":"藤曲 93.4KP","a":"小山町","m":"小山町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s363.jpg","g":"r246"},
+    {"id":"CAM-063","c":[138.9520,35.3920],"r":"246","rn":"国道246号","n":"上野 94.8KP","a":"小山町","m":"小山町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s364.jpg","g":"r246"},
+    {"id":"CAM-062","c":[138.9470,35.3970],"r":"246","rn":"国道246号","n":"須川橋 95.6KP","a":"小山町","m":"小山町","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/i/snapshot/s365.jpg","g":"r246"},
+
+    {"id":"AMAGI-001","c":[138.9316,34.9228],"r":"414","rn":"国道414号 天城北道路","n":"月ケ瀬IC","a":"天城北道路","m":"伊豆市","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/snapshot/1196.jpg","g":"amagi"},
+    {"id":"AMAGI-002","c":[138.9334,34.9278],"r":"414","rn":"国道414号 天城北道路","n":"矢熊大橋","a":"天城北道路","m":"伊豆市","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/snapshot/1195.jpg","g":"amagi"},
+    {"id":"AMAGI-003","c":[138.9345,34.9320],"r":"414","rn":"国道414号 天城北道路","n":"矢熊高架橋","a":"天城北道路","m":"伊豆市","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/snapshot/1194.jpg","g":"amagi"},
+    {"id":"AMAGI-004","c":[138.9355,34.9368],"r":"414","rn":"国道414号 天城北道路","n":"矢熊トンネル北","a":"天城北道路","m":"伊豆市","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/snapshot/1191.jpg","g":"amagi"},
+    {"id":"AMAGI-005","c":[138.9360,34.9415],"r":"414","rn":"国道414号 天城北道路","n":"天城北道路トンネル電気室前","a":"天城北道路","m":"伊豆市","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/snapshot/1181.jpg","g":"amagi"},
+    {"id":"AMAGI-006","c":[138.9366,34.9470],"r":"414","rn":"国道414号 天城北道路","n":"日向トンネル南","a":"天城北道路","m":"伊豆市","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/snapshot/1172.jpg","g":"amagi"},
+    {"id":"AMAGI-007","c":[138.9358,34.9522],"r":"414","rn":"国道414号 天城北道路","n":"狩野川高架橋下","a":"天城北道路","m":"伊豆市","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/snapshot/1170.jpg","g":"amagi"},
+    {"id":"AMAGI-008","c":[138.9345,34.9580],"r":"414","rn":"国道414号 天城北道路","n":"大平IC","a":"天城北道路","m":"伊豆市","img":"https://www.cbr.mlit.go.jp/numazu/kanogawa/cctv/snapshot/1169.jpg","g":"amagi"}
+  ]
+}
