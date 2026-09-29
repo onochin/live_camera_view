@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>静岡県東部 道路ライブカメラ WebMap</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>道路ライブカメラ WebMap</h1>
+        <p>静岡県東部 / v0.1</p>
+      </div>
+
+      <div class="summary" aria-live="polite">
+        <div><strong id="mapped-count">-</strong><span>地図表示</span></div>
+        <div><strong id="inventory-count">68</strong><span>台帳総数</span></div>
+      </div>
+
+      <section class="control-group">
+        <label for="base-select">背景地図</label>
+        <select id="base-select">
+          <option value="pale">地理院 淡色地図</option>
+          <option value="std">地理院 標準地図</option>
+          <option value="photo">地理院 写真</option>
+        </select>
+      </section>
+
+      <section class="control-group">
+        <label for="provider-select">管理者</label>
+        <select id="provider-select">
+          <option value="all">すべて</option>
+          <option value="静岡県">静岡県</option>
+          <option value="国土交通省">国土交通省</option>
+        </select>
+      </section>
+
+      <section class="control-group">
+        <label for="area-select">エリア</label>
+        <select id="area-select">
+          <option value="all">すべて</option>
+        </select>
+      </section>
+
+      <section class="control-group">
+        <label for="search-input">カメラ・路線検索</label>
+        <input id="search-input" type="search" placeholder="例: 乙女峠 / 138 / 箱根">
+      </section>
+
+      <div class="button-row">
+        <button id="terrain-toggle" type="button" aria-pressed="false">3D地形 ON</button>
+        <button id="reset-view" type="button">全域表示</button>
+      </div>
+
+      <section class="legend-block">
+        <h2>凡例</h2>
+        <div><span class="legend-dot prefecture"></span>静岡県</div>
+        <div><span class="legend-dot mlit"></span>国土交通省</div>
+        <p class="small">※ 初版は座標確認済み地点のみ表示。カメラ支柱そのものではなく、峠・交差点等の代表地点を含みます。</p>
+      </section>
+
+      <div id="status" class="status">地図を読み込んでいます…</div>
+    </aside>
+
+    <main class="map-wrap">
+      <div id="map" aria-label="静岡県東部の道路ライブカメラ地図"></div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
