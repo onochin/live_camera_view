@@ -142,7 +142,7 @@ button[aria-pressed="true"] {
 
 .legend-color.prefecture { background: #e07b39; }
 .legend-color.mlit { background: #2f6db2; }
-.legend-color.nexco { background: #7653b8; }
+.legend-color.nexco { background: #2f8f5b; }
 
 .legend-shape-row {
   padding-top: 3px;
@@ -207,8 +207,8 @@ button[aria-pressed="true"] {
   margin-top: 7px;
   padding: 6px 8px;
   border-radius: 6px;
-  background: #f5f3ff;
-  color: #5b3f8c;
+  background: #f3f6f9;
+  color: #536273;
   font-size: 11px;
   line-height: 1.45;
 }
